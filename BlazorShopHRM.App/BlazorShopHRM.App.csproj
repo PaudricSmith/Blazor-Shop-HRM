@@ -15,8 +15,4 @@
     <ProjectReference Include="..\BlazorShopHRM.Shared\BlazorShopHRM.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Components\" />
-  </ItemGroup>
-
 </Project>

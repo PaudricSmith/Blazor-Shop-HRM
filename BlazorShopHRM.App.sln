@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorShopHRM.App", "BlazorShopHRM.App\BlazorShopHRM.App.csproj", "{4A09F451-B3EF-4AD1-9D2D-E65A8445711F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorShopHRM.App", "BlazorShopHRM.App\BlazorShopHRM.App.csproj", "{4A09F451-B3EF-4AD1-9D2D-E65A8445711F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorShopHRM.Shared", "BlazorShopHRM.Shared\BlazorShopHRM.Shared.csproj", "{947ADA11-51D8-433F-B538-6E254EF7750C}"
 EndProject
