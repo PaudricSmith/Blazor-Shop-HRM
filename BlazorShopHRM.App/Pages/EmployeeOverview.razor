@@ -15,6 +15,7 @@
         @foreach (var employee in Employees)
         {
             <tr>
+                @* <td><img src="images/profilePicture.jpg" class="rounded-circle" style="width: 50px" /></td> *@
                 <td><img src="@($"https://gillcleerenpluralsight.blob.core.windows.net/person/{employee.EmployeeId}-small.jpg")" class="rounded-circle" /></td>
                 <td>@employee.EmployeeId</td>
                 <td>@employee.FirstName</td>
