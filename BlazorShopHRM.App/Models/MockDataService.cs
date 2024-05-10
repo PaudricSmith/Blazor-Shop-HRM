@@ -53,7 +53,7 @@ namespace BlazorShopHRM.App.Models
                 MaritalStatus = MaritalStatus.Married,
                 BirthDate = new DateTime(1979, 1, 16),
                 City = "Dublin",
-                Email = "Gerry@barbarasblazorshop.com",
+                Email = "gerry@barbarasblazorshop.com",
                 EmployeeId = 2,
                 FirstName = "Gerry",
                 LastName = "Dunne",
@@ -71,7 +71,30 @@ namespace BlazorShopHRM.App.Models
                 CountryId = _countries[1].CountryId
             };
 
-            return new List<Employee>() { e1, e2 };
+            var e3 = new Employee
+            {
+                MaritalStatus = MaritalStatus.Married,
+                BirthDate = new DateTime(1989, 7, 11),
+                City = "Dublin",
+                Email = "jane@barbarasblazorshop.com",
+                EmployeeId = 3,
+                FirstName = "Jane",
+                LastName = String.Empty,
+                Gender = Gender.Female,
+                PhoneNumber = "33999909923",
+                Smoker = false,
+                Street = "3 New Street",
+                Zip = "2000",
+                JobCategory = _jobCategories[1],
+                JobCategoryId = _jobCategories[1].JobCategoryId,
+                Comment = "Lorem Ipsum",
+                ExitDate = null,
+                JoinedDate = new DateTime(2019, 7, 21),
+                Country = _countries[1],
+                CountryId = _countries[1].CountryId
+            };
+
+            return new List<Employee>() { e1, e2, e3 };
         }
 
         private static List<JobCategory> InitializeMockJobCategories()
