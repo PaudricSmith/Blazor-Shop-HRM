@@ -5,9 +5,11 @@ namespace BlazorShopHRM.App.Pages
 {
     public partial class EmployeeOverview
     {
+        private Employee? _selectedEmployee;
+        private string Title = "Employee Overview";
+
         public List<Employee> Employees { get; set; } = default!;
 
-        private Employee? _selectedEmployee;
 
         protected override void OnInitialized()
         {

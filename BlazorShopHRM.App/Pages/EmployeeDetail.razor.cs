@@ -6,6 +6,8 @@ namespace BlazorShopHRM.App.Pages
 {
     public partial class EmployeeDetail
     {
+        private string Title = "Employee Details";
+
         [Parameter]
         public string EmployeeId { get; set; }
 
