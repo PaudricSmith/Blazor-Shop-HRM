@@ -10,5 +10,16 @@ namespace BlazorShopHRM.App.Components
 
         [Parameter]
         public EventCallback<Employee> EmployeeQuickViewClicked { get; set; }
+
+        [Inject]
+        public NavigationManager NavigationManager { get; set; } = default!;
+
+        public void NavigateToDetails(Employee selectedEmployee)
+        {
+            // Write conditions here if needed
+
+            NavigationManager.NavigateTo($"/employeedetail/{selectedEmployee.EmployeeId}");
+        }
+    
     }
 }
