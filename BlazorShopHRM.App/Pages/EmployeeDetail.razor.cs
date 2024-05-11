@@ -1,4 +1,5 @@
 ﻿using BlazorShopHRM.App.Models;
+using BlazorShopHRM.App.Services;
 using BlazorShopHRM.Shared.Domain;
 using Microsoft.AspNetCore.Components;
 
@@ -6,6 +7,9 @@ namespace BlazorShopHRM.App.Pages
 {
     public partial class EmployeeDetail
     {
+        [Inject]
+        public IEmployeeDataService EmployeeDataService { get; set; }
+
         private string Title = "Employee Details";
 
         [Parameter]
@@ -13,11 +17,9 @@ namespace BlazorShopHRM.App.Pages
 
         public Employee? Employee { get; set; } = new Employee();
 
-        protected override Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
-            Employee = MockDataService.Employees.FirstOrDefault(e => e.EmployeeId == int.Parse(EmployeeId));
-
-            return base.OnInitializedAsync();
+            Employee = await EmployeeDataService.GetEmployeeDetails(int.Parse(EmployeeId));
         }
     }
 }
