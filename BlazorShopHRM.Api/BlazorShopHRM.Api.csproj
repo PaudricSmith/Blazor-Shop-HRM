@@ -8,6 +8,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Azure.Identity" Version="1.11.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.4" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
 			<PrivateAssets>all</PrivateAssets>
@@ -21,6 +22,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\BlazorShopHRM.App\BlazorShopHRM.App.csproj" />
 	  <ProjectReference Include="..\BlazorShopHRM.Shared\BlazorShopHRM.Shared.csproj" />
 	</ItemGroup>
 

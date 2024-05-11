@@ -36,7 +36,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseWebAssemblyDebugging();
+}
+
 app.UseHttpsRedirection();
+
+app.UseBlazorFrameworkFiles();
 
 app.UseStaticFiles();
 
@@ -47,5 +54,7 @@ app.UseAuthorization();
 app.UseCors("Open");
 
 app.MapControllers();
+
+app.MapFallbackToFile("index.html");
 
 app.Run();
