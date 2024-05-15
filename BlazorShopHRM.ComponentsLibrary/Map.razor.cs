@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace BlazorShopHRM.App.Components
+namespace BlazorShopHRM.ComponentsLibrary
 {
     public partial class Map
     {
