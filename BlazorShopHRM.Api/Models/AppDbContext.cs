@@ -58,8 +58,8 @@ namespace BlazorShopHRM.Api.Models
                 Comment = "Lorem Ipsum",
                 ExitDate = null,
                 JoinedDate = new DateTime(2015, 3, 1),
-                Latitude = 50.8503, 
-                Longitude = 4.3517
+                Latitude = 53.279580, 
+                Longitude = -6.137590
             });
         }
     }

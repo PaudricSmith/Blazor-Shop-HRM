@@ -15,8 +15,7 @@ builder.Services.AddHttpClient<ICountryDataService, CountryDataService>(
 builder.Services.AddHttpClient<IJobCategoryDataService, JobCategoryDataService>(
     client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
 
-builder.Services.AddScoped<ApplicationState>();
-
 builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddScoped<ApplicationState>();
 
 await builder.Build().RunAsync();

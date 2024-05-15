@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorShopHRM.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240510143419_InitialMigration")]
+    [Migration("20240515140154_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -105,7 +105,8 @@ namespace BlazorShopHRM.Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
@@ -119,10 +120,14 @@ namespace BlazorShopHRM.Api.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("JobCategoryId")
                         .HasColumnType("int");
@@ -132,7 +137,8 @@ namespace BlazorShopHRM.Api.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<double?>("Latitude")
                         .HasColumnType("float");
@@ -180,8 +186,8 @@ namespace BlazorShopHRM.Api.Migrations
                             JobCategoryId = 1,
                             JoinedDate = new DateTime(2015, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastName = "Smith",
-                            Latitude = 50.850299999999997,
-                            Longitude = 4.3517000000000001,
+                            Latitude = 53.279580000000003,
+                            Longitude = -6.1375900000000003,
                             MaritalStatus = 1,
                             PhoneNumber = "324777888773",
                             Smoker = false,
