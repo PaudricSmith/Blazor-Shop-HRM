@@ -18,4 +18,8 @@
     <ProjectReference Include="..\BlazorShopHRM.Shared\BlazorShopHRM.Shared.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<BlazorWebAssemblyLazyLoad Include="BlazorShopHRM.ComponentsLibrary.wasm" />
+	</ItemGroup>
+
 </Project>

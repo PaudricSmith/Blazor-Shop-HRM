@@ -11,7 +11,7 @@ namespace BlazorShopHRM.App.Pages
         [Inject]
         public IEmployeeDataService? EmployeeDataService { get; set; }
 
-        private string Title = "Employee Details";
+        private readonly string Title = "Employee Details";
 
         [Parameter]
         public string EmployeeId { get; set; }
