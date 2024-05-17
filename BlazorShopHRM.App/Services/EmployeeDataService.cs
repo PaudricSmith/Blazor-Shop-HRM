@@ -73,7 +73,7 @@ namespace BlazorShopHRM.App.Services
                 new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
             await _localStorageService.SetItemAsync(LocalStorageConstants.EmployeesListKey, list);
-            await _localStorageService.SetItemAsync(LocalStorageConstants.EmployeesListExpirationKey, DateTime.Now.AddMinutes(1));
+            await _localStorageService.SetItemAsync(LocalStorageConstants.EmployeesListExpirationKey, DateTime.Now.AddSeconds(1));
 
             return list;
         }
