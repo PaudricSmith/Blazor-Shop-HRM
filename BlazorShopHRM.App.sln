@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorShopHRM.Shared", "Bla
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorShopHRM.Api", "BlazorShopHRM.Api\BlazorShopHRM.Api.csproj", "{B151ABBC-DB4A-4D92-8A14-C9896299839E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorShopHRM.ComponentsLibrary", "BlazorShopHRM.ComponentsLibrary\BlazorShopHRM.ComponentsLibrary.csproj", "{21589084-1C3D-4204-90DD-94AD151DBCBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorShopHRM.ComponentsLibrary", "BlazorShopHRM.ComponentsLibrary\BlazorShopHRM.ComponentsLibrary.csproj", "{21589084-1C3D-4204-90DD-94AD151DBCBD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorShopHRM.App.Tests", "BlazorShopHRM.App.Tests\BlazorShopHRM.App.Tests.csproj", "{3833651E-17CB-4B24-AB1E-00ACFB1A75CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{21589084-1C3D-4204-90DD-94AD151DBCBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21589084-1C3D-4204-90DD-94AD151DBCBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21589084-1C3D-4204-90DD-94AD151DBCBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3833651E-17CB-4B24-AB1E-00ACFB1A75CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3833651E-17CB-4B24-AB1E-00ACFB1A75CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3833651E-17CB-4B24-AB1E-00ACFB1A75CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3833651E-17CB-4B24-AB1E-00ACFB1A75CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
