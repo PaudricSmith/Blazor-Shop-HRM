@@ -1,5 +1,8 @@
 ﻿@page "/"
 
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
 <PageTitle>@Title</PageTitle>
 
 <h1>Barbara's Pie Shop HRM!</h1>
@@ -7,7 +10,14 @@
 <h2>Welcome!</h2>
 <br />
 
-@foreach (var widgetType in Widgets)
+@if (isAuthenticated)
 {
-    <DynamicComponent Type="widgetType"></DynamicComponent>
+    @foreach (var widgetType in Widgets)
+    {
+        <DynamicComponent Type="widgetType"></DynamicComponent>
+    }
+}
+else
+{
+    <p>Please log in to see the widgets.</p>
 }

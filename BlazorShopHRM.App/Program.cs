@@ -20,7 +20,7 @@ builder.Services.AddHttpClient<IJobCategoryDataService, JobCategoryDataService>(
     .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
 builder.Services.AddBlazoredLocalStorage();
-builder.Services.AddScoped<ApplicationState>();
+builder.Services.AddSingleton<ApplicationState>();
 
 builder.Services.AddOidcAuthentication(options =>
 {
