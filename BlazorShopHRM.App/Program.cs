@@ -34,6 +34,10 @@ builder.Services.AddHttpClient<ILeaveDataService, LeaveDataService>(
     client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
     .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
+builder.Services.AddHttpClient<IAnnouncementDataService, AnnouncementDataService>(
+    client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
+    .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
+
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddSingleton<ApplicationState>();
 

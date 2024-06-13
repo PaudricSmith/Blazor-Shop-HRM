@@ -1,4 +1,5 @@
-﻿using BlazorShopHRM.Api.Repositories.Interfaces;
+﻿using BlazorShopHRM.Api.Repositories;
+using BlazorShopHRM.Api.Repositories.Interfaces;
 using BlazorShopHRM.Shared.Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace BlazorShopHRM.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class LeaveController : ControllerBase
     {
         private readonly ILeaveRepository _leaveRepository;
@@ -41,16 +43,41 @@ namespace BlazorShopHRM.Api.Controllers
             return Ok(_leaveRepository.GetLeavesByEmployeeId(employeeId));
         }
 
+        //[HttpPost]
+        //public IActionResult AddLeave(Leave leave)
+        //{
+        //    if (leave == null)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    var createdLeave = _leaveRepository.AddLeave(leave);
+        //    return CreatedAtAction(nameof(GetLeaveById), new { id = createdLeave.LeaveId }, createdLeave);
+        //}
+
         [HttpPost]
-        public IActionResult AddLeave(Leave leave)
+        public IActionResult CreateLeave([FromBody] Leave leave)
         {
             if (leave == null)
             {
-                return BadRequest();
+                return BadRequest("Leave is null");
             }
 
-            var createdLeave = _leaveRepository.AddLeave(leave);
-            return CreatedAtAction(nameof(GetLeaveById), new { id = createdLeave.LeaveId }, createdLeave);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var createdLeave = _leaveRepository.AddLeave(leave);
+                return Created("leave", createdLeave);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpPut("{id}")]

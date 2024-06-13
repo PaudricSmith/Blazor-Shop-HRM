@@ -1,8 +1,56 @@
 ﻿@page "/announcement-overview"
 @attribute [Authorize]
 
-<h3>Announcements</h3>
+<h3>Announcements & Notifications</h3>
 
-@code {
+<NavLink class="list-group-item list-group-item-primary" href="/announcement-edit">
+    <span class="oi oi-pencil" aria-hidden="true"></span> Add New Announcement
+</NavLink>
 
+<br />
+
+@if (Announcements == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!Announcements.Any())
+{
+    <p>No announcement records found.</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var announcement in Announcements)
+        {
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 my-2">
+                <ErrorBoundary>
+                    <ChildContent>
+                        @* <li class="list-group-item">
+                            <strong>@announcement.Title</strong>
+                            <p>@announcement.Content</p>
+                            <small class="text-muted">@announcement.DatePosted.ToShortDateString()</small>
+                        </li> *@
+
+                        <div class="col">
+                            <div class="card rounded-3 payroll-card text-center">
+                                <div class="card-header py-3">
+                                    <h3>~ @announcement.Title ~</h3>
+                                    <small>@announcement.DatePosted</small>
+                                </div>
+                                <div class="card-body payroll-card text-center">
+                                    <div class="mb-3">
+                                        <p>@announcement.Content</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </ChildContent>
+                    <ErrorContent>
+                        <p class="errorUI">Invalid Payroll!</p>
+                    </ErrorContent>
+                </ErrorBoundary>
+            </div>
+        }
+    </div>
 }

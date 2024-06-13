@@ -6,7 +6,7 @@ namespace BlazorShopHRM.App.Services.Interfaces
     public interface IPerformanceReviewDataService
     {
         Task<IEnumerable<PerformanceReview>> GetAllPerformanceReviews();
-        Task<PerformanceReview> GetPerformanceReviewDetails(int performanceReviewId);
+        Task<PerformanceReview> GetPerformanceReviewById(int performanceReviewId);
         Task<IEnumerable<PerformanceReview>> GetPerformanceReviewsByEmployeeId(int employeeId);
         Task<PerformanceReview> AddPerformanceReview(PerformanceReview performanceReview);
         Task UpdatePerformanceReview(PerformanceReview performanceReview);

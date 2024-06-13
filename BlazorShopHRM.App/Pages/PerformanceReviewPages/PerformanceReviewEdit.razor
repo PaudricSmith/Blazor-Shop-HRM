@@ -1,7 +1,14 @@
 ﻿@page "/performance-review-edit"
 @page "/performance-review-edit/{PerformanceReviewId:int}"
 @attribute [Authorize]
-@* @using BlazorShopHRM.Shared.Domain *@
+
+
+<PageTitle>@Title</PageTitle>
+
+<HeadContent>
+    <meta name="apple-mobile-web-app-title" content="@Description">
+</HeadContent>
+
 
 @if (!Saved)
 {
@@ -51,85 +58,4 @@ else
     <div class="alert @StatusClass">@Message</div>
 
     <button type="button" class="btn btn-outline-primary ms-1" @onclick="@NavigateToOverview">Back to Overview</button>
-}
-
-@code {
-    [Parameter]
-    public int PerformanceReviewId { get; set; }
-
-    private PerformanceReview PerformanceReview = new PerformanceReview();
-    private string Message = string.Empty;
-    private string StatusClass = string.Empty;
-    private bool Saved;
-
-    [Inject]
-    public IPerformanceReviewDataService PerformanceReviewDataService { get; set; }
-    [Inject]
-    public NavigationManager NavigationManager { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        Saved = false;
-
-        if (PerformanceReviewId == 0)
-        {
-            PerformanceReview = new PerformanceReview
-                {
-                    ReviewDate = DateTime.Now
-                };
-        }
-        else
-        {
-            PerformanceReview = await PerformanceReviewDataService.GetPerformanceReviewDetails(PerformanceReviewId);
-        }
-    }
-
-    private async Task HandleValidSubmit()
-    {
-        Saved = false;
-
-        if (PerformanceReview.PerformanceReviewId == 0)
-        {
-            var addedPerformanceReview = await PerformanceReviewDataService.AddPerformanceReview(PerformanceReview);
-            if (addedPerformanceReview != null)
-            {
-                StatusClass = "alert-success";
-                Message = "New performance review added successfully.";
-                Saved = true;
-            }
-            else
-            {
-                StatusClass = "alert-danger";
-                Message = "Something went wrong adding the new performance review. Please try again.";
-                Saved = false;
-            }
-        }
-        else
-        {
-            await PerformanceReviewDataService.UpdatePerformanceReview(PerformanceReview);
-            StatusClass = "alert-success";
-            Message = "Performance review updated successfully.";
-            Saved = true;
-        }
-    }
-
-    private async Task HandleInvalidSubmit()
-    {
-        StatusClass = "alert-danger";
-        Message = "There are some validation errors. Please try again.";
-    }
-
-    private async Task DeletePerformanceReview()
-    {
-        await PerformanceReviewDataService.DeletePerformanceReview(PerformanceReview.PerformanceReviewId);
-
-        StatusClass = "alert-success";
-        Message = "Deleted Successfully";
-        Saved = true;
-    }
-
-    private void NavigateToOverview()
-    {
-        NavigationManager.NavigateTo("/performance-review-overview");
-    }
 }

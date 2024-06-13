@@ -16,9 +16,9 @@ namespace BlazorShopHRM.App.Pages.EmployeePages
         [Inject]
         public IJobCategoryDataService? JobCategoryDataService { get; set; }
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        public NavigationManager? NavigationManager { get; set; }
         [Inject]
-        public IJSRuntime JsRuntime { get; set; }
+        public IJSRuntime? JsRuntime { get; set; }
 
 
         private string Title = "Add Employee";
@@ -87,13 +87,13 @@ namespace BlazorShopHRM.App.Pages.EmployeePages
                 if (addedEmployee != null)
                 {
                     StatusClass = "alert-success"; // Bootstrap class
-                    Message = "New Employee added successfully.";
+                    Message = "New employee added successfully.";
                     Saved = true;
                 }
                 else
                 {
                     StatusClass = "alert-danger"; // Bootstrap class
-                    Message = "Something went wrong adding the new Employee. Please try again.";
+                    Message = "Something went wrong adding the new employee. Please try again.";
                     Saved = false;
                 }
             }

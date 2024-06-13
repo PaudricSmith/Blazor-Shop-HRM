@@ -1,6 +1,7 @@
 ﻿using BlazorShopHRM.Api.Data;
 using BlazorShopHRM.Api.Repositories.Interfaces;
 using BlazorShopHRM.Shared.Domain;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace BlazorShopHRM.Api.Repositories
@@ -17,7 +18,7 @@ namespace BlazorShopHRM.Api.Repositories
 
         public IEnumerable<Leave> GetAllLeaves()
         {
-            return _appDbContext.Leaves;
+            return _appDbContext.Leaves.Include(l => l.Employee);
         }
 
         public Leave GetLeaveById(int leaveId)

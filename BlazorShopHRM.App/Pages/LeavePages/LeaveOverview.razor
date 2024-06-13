@@ -1,16 +1,18 @@
 ﻿@page "/leave-overview"
 @attribute [Authorize]
 
+
 <PageTitle>@Title</PageTitle>
 
 <HeadContent>
     <meta name="description" content="@Description">
 </HeadContent>
 
+
 <h2>Leave Overview</h2>
 
 <NavLink class="list-group-item list-group-item-primary" href="/leave-edit">
-    <span class="oi oi-calendar" aria-hidden="true"></span> Add New Leave
+    <span class="oi oi-pencil" aria-hidden="true"></span> Add New Leave
 </NavLink>
 
 <br />
@@ -24,10 +26,35 @@ else
     <div class="row">
         @foreach (var leave in Leaves)
         {
-            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 my-2">
                 <ErrorBoundary>
                     <ChildContent>
                         @* <LeaveCard Leave="leave"></LeaveCard> *@
+
+                        <div class="col">
+                            <div class="card rounded-3 payroll-card text-center">
+                                <div class="card-header py-3">
+                                    <h4>@leave.Employee?.FirstName @leave.Employee?.LastName</h4>
+                                    <small>@leave.StartDate.ToShortDateString() to </small>
+                                    <small>@leave.EndDate.ToShortDateString()</small>
+                                </div>
+                                <div class="card-body payroll-card text-center">
+                                    <div class="mb-3">
+                                        <div>
+                                            <strong>@leave.LeaveType</strong>
+                                        </div>
+                                        <p>@leave.Reason</p>
+                                    </div>
+                                    @* <button class="btn btn-primary btn-sm mb-1" @onclick="() => PayrollEditClicked.InvokeAsync(Payroll)">
+                                        Edit
+                                    </button>
+                                    <button class="btn btn-danger btn-sm mb-1" @onclick="async () => await PayrollDeleteClicked.InvokeAsync(Payroll)">
+                                        Delete
+                                    </button> *@
+                                </div>
+                            </div>
+                        </div>
+
                     </ChildContent>
                     <ErrorContent>
                         <p class="errorUI">Invalid Leave!</p>
@@ -36,18 +63,4 @@ else
             </div>
         }
     </div>
-}
-
-@code {
-    private string Title = "Leave Overview";
-    private string Description = "Leave overview";
-    private List<Leave> Leaves = new List<Leave>();
-
-    [Inject]
-    public ILeaveDataService LeaveDataService { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        Leaves = (await LeaveDataService.GetAllLeaves()).ToList();
-    }
 }

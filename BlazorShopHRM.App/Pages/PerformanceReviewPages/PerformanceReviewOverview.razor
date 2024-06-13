@@ -1,11 +1,13 @@
 ﻿@page "/performance-review-overview"
 @attribute [Authorize]
 
+
 <PageTitle>@Title</PageTitle>
 
 <HeadContent>
     <meta name="description" content="@Description">
 </HeadContent>
+
 
 <h2>Performance Review Overview</h2>
 
@@ -36,18 +38,4 @@ else
             </div>   
         }
     </div>
-}
-
-@code {
-    private string Title = "Performance Review Overview";
-    private string Description = "Performance review overview";
-    private List<PerformanceReview> PerformanceReviews = new List<PerformanceReview>();
-
-    [Inject]
-    public IPerformanceReviewDataService PerformanceReviewDataService { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        PerformanceReviews = (await PerformanceReviewDataService.GetAllPerformanceReviews()).ToList();
-    }
 }

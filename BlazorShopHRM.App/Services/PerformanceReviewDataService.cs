@@ -52,7 +52,7 @@ namespace BlazorShopHRM.App.Services
             return list;
         }
 
-        public async Task<PerformanceReview> GetPerformanceReviewDetails(int performanceReviewId)
+        public async Task<PerformanceReview> GetPerformanceReviewById(int performanceReviewId)
         {
             return await JsonSerializer.DeserializeAsync<PerformanceReview>(
                 await _httpClient.GetStreamAsync($"api/performanceReview/{performanceReviewId}"),

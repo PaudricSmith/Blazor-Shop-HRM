@@ -4,6 +4,7 @@
 
 
 <PageTitle>@Title</PageTitle>
+
 <HeadContent>
     <meta name="description" content="@Description">
 </HeadContent>
@@ -15,7 +16,7 @@
         <EditForm Model="@Payroll" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
             
             <DataAnnotationsValidator />
-            <ValidationSummary />
+            <ValidationSummary></ValidationSummary>
 
             <div class="row mb-3">
                 <label for="employee" class="col-form-label col-md-3">Employee: </label>
@@ -47,7 +48,7 @@
                 <ValidationMessage class="offset-md-3 col-md-8" For="@(() => Payroll.Amount)" />
             </div>
 
-            <button type="submit" class="btn btn-primary">Save Payroll</button>
+            <button type="submit" class="btn btn-primary me-1">Save Payroll</button>
             <button type="button" class="btn btn-outline-primary m-1" @onclick="@NavigateToOverview">Back to Overview</button>
 
         </EditForm>

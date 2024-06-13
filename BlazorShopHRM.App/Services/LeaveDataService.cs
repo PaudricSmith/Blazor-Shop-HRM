@@ -1,5 +1,6 @@
 ﻿using BlazorShopHRM.App.Services.Interfaces;
 using BlazorShopHRM.Shared.Domain;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 
@@ -19,16 +20,26 @@ namespace BlazorShopHRM.App.Services
 
         public async Task<Leave> AddLeave(Leave leave)
         {
-            var leaveJson = new StringContent(JsonSerializer.Serialize(leave), Encoding.UTF8, "application/json");
-
-            var response = await _httpClient.PostAsync("api/leave", leaveJson);
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                return await JsonSerializer.DeserializeAsync<Leave>(await response.Content.ReadAsStreamAsync());
-            }
+                var response = await _httpClient.PostAsJsonAsync("api/leave", leave);
 
-            return null;
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<Leave>();
+                }
+                else
+                {
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine($"Error response: {responseBody}");
+                    throw new ApplicationException($"Error adding payroll: {responseBody}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                throw new ApplicationException("Error adding leave", ex);
+            }
         }
 
         public async Task UpdateLeave(Leave leave)

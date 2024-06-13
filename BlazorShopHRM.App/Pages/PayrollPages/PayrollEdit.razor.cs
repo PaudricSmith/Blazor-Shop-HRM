@@ -1,16 +1,15 @@
 ﻿using BlazorShopHRM.App.Services.Interfaces;
 using BlazorShopHRM.Shared.Domain;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 
 
 namespace BlazorShopHRM.App.Pages.PayrollPages
 {
     public partial class PayrollEdit
     {
-        [Inject] NavigationManager NavigationManager { get; set; }
-        [Inject] IPayrollDataService PayrollDataService { get; set; }
-        [Inject] IEmployeeDataService EmployeeDataService { get; set; }
+        [Inject] IPayrollDataService? PayrollDataService { get; set; }
+        [Inject] IEmployeeDataService? EmployeeDataService { get; set; }
+        [Inject] NavigationManager? NavigationManager { get; set; }
 
 
         private string Title = "Add Payroll";
@@ -60,13 +59,13 @@ namespace BlazorShopHRM.App.Pages.PayrollPages
                 if (addedPayroll != null)
                 {
                     StatusClass = "alert-success"; // Bootstrap class
-                    Message = "New Payroll added successfully.";
+                    Message = "New payroll added successfully.";
                     Saved = true;
                 }
                 else
                 {
                     StatusClass = "alert-danger"; // Bootstrap class
-                    Message = "Something went wrong adding the new Payroll. Please try again.";
+                    Message = "Something went wrong adding the new payroll. Please try again.";
                     Saved = false;
                 }
             }
@@ -78,8 +77,6 @@ namespace BlazorShopHRM.App.Pages.PayrollPages
                 Message = "Payroll updated successfully.";
                 Saved = true;
             }
-
-            NavigateToOverview();
         }
 
         protected async Task HandleInvalidSubmit()

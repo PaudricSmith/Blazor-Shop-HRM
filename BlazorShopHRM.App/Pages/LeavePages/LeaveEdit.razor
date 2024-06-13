@@ -1,15 +1,29 @@
 ﻿@page "/leave-edit"
 @page "/leave-edit/{LeaveId:int}"
-@using BlazorShopHRM.Shared.Domain
+
 
 @if (!Saved)
 {
-    <section class="leave-edit">
+    <section class="employee-edit">
         <h1 class="page-title">Details for @Leave.StartDate.ToShortDateString()</h1>
-        <EditForm Model="@Leave" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+        <EditForm Model="@Leave" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
 
             <DataAnnotationsValidator />
             <ValidationSummary></ValidationSummary>
+
+            <div class="row mb-3">
+                <label for="employee" class="col-form-label col-md-3">Employee: </label>
+                <div class="col-md-8">
+                    <InputSelect id="employee" class="form-control col-md-8" required @bind-Value="Leave.EmployeeId">
+                        <option value="">Select an Employee</option>
+                        @foreach (var employee in Employees)
+                        {
+                            <option value="@employee.EmployeeId">@employee.FirstName @employee.LastName</option>
+                        }
+                    </InputSelect>
+                </div>
+                <ValidationMessage class="offset-md-3 col-md-8" For="@(() => Leave.EmployeeId)" />
+            </div>
 
             <div class="row mb-3">
                 <label for="startDate" class="col-form-label col-md-3">Start Date: </label>
@@ -62,86 +76,4 @@ else
     <div class="alert @StatusClass">@Message</div>
 
     <button type="button" class="btn btn-outline-primary ms-1" @onclick="@NavigateToOverview">Back to Overview</button>
-}
-
-@code {
-    [Parameter]
-    public int LeaveId { get; set; }
-
-    private Leave Leave = new Leave();
-    private string Message = string.Empty;
-    private string StatusClass = string.Empty;
-    private bool Saved;
-
-    [Inject]
-    public ILeaveDataService LeaveDataService { get; set; }
-    [Inject]
-    public NavigationManager NavigationManager { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        Saved = false;
-
-        if (LeaveId == 0)
-        {
-            Leave = new Leave
-                {
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now.AddDays(7)
-                };
-        }
-        else
-        {
-            Leave = await LeaveDataService.GetLeaveDetails(LeaveId);
-        }
-    }
-
-    private async Task HandleValidSubmit()
-    {
-        Saved = false;
-
-        if (Leave.LeaveId == 0)
-        {
-            var addedLeave = await LeaveDataService.AddLeave(Leave);
-            if (addedLeave != null)
-            {
-                StatusClass = "alert-success";
-                Message = "New leave added successfully.";
-                Saved = true;
-            }
-            else
-            {
-                StatusClass = "alert-danger";
-                Message = "Something went wrong adding the new leave. Please try again.";
-                Saved = false;
-            }
-        }
-        else
-        {
-            await LeaveDataService.UpdateLeave(Leave);
-            StatusClass = "alert-success";
-            Message = "Leave updated successfully.";
-            Saved = true;
-        }
-    }
-
-    private async Task HandleInvalidSubmit()
-    {
-        StatusClass = "alert-danger";
-        Message = "There are some validation errors. Please try again.";
-    }
-
-    private async Task DeleteLeave()
-    {
-        await LeaveDataService.DeleteLeave(Leave.LeaveId);
-
-        StatusClass = "alert-success";
-        Message = "Deleted Successfully";
-        Saved = true;
-    }
-
-    private void NavigateToOverview()
-    {
-        NavigationManager.NavigateTo("/leave-overview");
-    }
 }

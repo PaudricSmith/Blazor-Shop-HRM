@@ -7,6 +7,7 @@ namespace BlazorShopHRM.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class PerformanceReviewController : ControllerBase
     {
         private readonly IPerformanceReviewRepository _performanceReviewRepository;
