@@ -1,8 +1,10 @@
 ﻿using Blazored.LocalStorage;
 using BlazorShopHRM.App.Helper;
+using BlazorShopHRM.App.Services.Interfaces;
 using BlazorShopHRM.Shared.Domain;
 using System.Text;
 using System.Text.Json;
+
 
 namespace BlazorShopHRM.App.Services
 {
@@ -10,6 +12,7 @@ namespace BlazorShopHRM.App.Services
     {
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorageService;
+
 
         public EmployeeDataService(HttpClient httpClient, ILocalStorageService localStorageService) 
         {
@@ -46,25 +49,26 @@ namespace BlazorShopHRM.App.Services
 
         public async Task<IEnumerable<Employee>> GetAllEmployees(bool refreshRequired = false)
         {
-            if (!refreshRequired)
-            {
-                bool employeeExpirationExists = 
-                    await _localStorageService.ContainKeyAsync(LocalStorageConstants.EmployeesListExpirationKey);
+            // Uncomment to use a refresh timer
+            //if (!refreshRequired)
+            //{
+            //    bool employeeExpirationExists = 
+            //        await _localStorageService.ContainKeyAsync(LocalStorageConstants.EmployeesListExpirationKey);
 
-                if (employeeExpirationExists) 
-                {
-                    DateTime employeeListExpiration =
-                        await _localStorageService.GetItemAsync<DateTime>(LocalStorageConstants.EmployeesListExpirationKey);
+            //    if (employeeExpirationExists) 
+            //    {
+            //        DateTime employeeListExpiration =
+            //            await _localStorageService.GetItemAsync<DateTime>(LocalStorageConstants.EmployeesListExpirationKey);
 
-                    if (employeeListExpiration > DateTime.Now) // Get from local storage 
-                    {
-                        if (await _localStorageService.ContainKeyAsync(LocalStorageConstants.EmployeesListKey)) 
-                        {
-                            return await _localStorageService.GetItemAsync<List<Employee>>(LocalStorageConstants.EmployeesListKey);
-                        }
-                    }
-                }
-            }
+            //        if (employeeListExpiration > DateTime.Now) // Get from local storage 
+            //        {
+            //            if (await _localStorageService.ContainKeyAsync(LocalStorageConstants.EmployeesListKey)) 
+            //            {
+            //                return await _localStorageService.GetItemAsync<List<Employee>>(LocalStorageConstants.EmployeesListKey);
+            //            }
+            //        }
+            //    }
+            //}
 
             // Otherwize refresh the list locally from the API and set expiration to 1 minute in future
 
@@ -72,8 +76,8 @@ namespace BlazorShopHRM.App.Services
                 await _httpClient.GetStreamAsync($"api/employee"), 
                 new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
-            await _localStorageService.SetItemAsync(LocalStorageConstants.EmployeesListKey, list);
-            await _localStorageService.SetItemAsync(LocalStorageConstants.EmployeesListExpirationKey, DateTime.Now.AddSeconds(1));
+            //await _localStorageService.SetItemAsync(LocalStorageConstants.EmployeesListKey, list);
+            //await _localStorageService.SetItemAsync(LocalStorageConstants.EmployeesListExpirationKey, DateTime.Now.AddSeconds(1));
 
             return list;
         }

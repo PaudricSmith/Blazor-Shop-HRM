@@ -1,0 +1,45 @@
+﻿@page "/employee-overview"
+@attribute [Authorize]
+
+<PageTitle>@Title</PageTitle>
+
+<HeadContent>
+    <meta name="description" content="@Description">
+</HeadContent>
+
+
+<h2>Employee Overview</h2>
+
+<NavLink class="list-group-item list-group-item-primary" href="/employee-edit">
+    <span class="oi oi-people" aria-hidden="true"></span> Add New Employee
+</NavLink>
+
+<br />
+
+@if (Employees == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!Employees.Any())
+{
+    <p>No Employee records found.</p>
+}
+else
+{
+    <QuickViewPopup Employee="_selectedEmployee"></QuickViewPopup>
+    <div class="row">
+        @foreach (var employee in Employees)
+        {
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 my-2">
+                <ErrorBoundary>
+                    <ChildContent>
+                        <EmployeeCard Employee="employee" EmployeeQuickViewClicked="ShowQuickViewPopup"></EmployeeCard>
+                    </ChildContent>
+                    <ErrorContent>
+                        <p class="errorUI">Invalid Employee!</p>
+                    </ErrorContent>
+                </ErrorBoundary>
+            </div>   
+        }
+    </div>
+}

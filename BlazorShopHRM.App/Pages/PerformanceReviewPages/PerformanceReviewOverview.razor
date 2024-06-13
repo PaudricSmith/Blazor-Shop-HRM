@@ -1,0 +1,53 @@
+﻿@page "/performance-review-overview"
+@attribute [Authorize]
+
+<PageTitle>@Title</PageTitle>
+
+<HeadContent>
+    <meta name="description" content="@Description">
+</HeadContent>
+
+<h2>Performance Review Overview</h2>
+
+<NavLink class="list-group-item list-group-item-primary" href="/performance-review-edit">
+    <span class="oi oi-pencil" aria-hidden="true"></span> Add New Performance Review
+</NavLink>
+
+<br />
+
+@if (PerformanceReviews == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        @foreach (var review in PerformanceReviews)
+        {
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
+                <ErrorBoundary>
+                    <ChildContent>
+                        @* <PerformanceReviewCard PerformanceReview="review"></PerformanceReviewCard> *@
+                    </ChildContent>
+                    <ErrorContent>
+                        <p class="errorUI">Invalid Performance Review!</p>
+                    </ErrorContent>
+                </ErrorBoundary>
+            </div>   
+        }
+    </div>
+}
+
+@code {
+    private string Title = "Performance Review Overview";
+    private string Description = "Performance review overview";
+    private List<PerformanceReview> PerformanceReviews = new List<PerformanceReview>();
+
+    [Inject]
+    public IPerformanceReviewDataService PerformanceReviewDataService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        PerformanceReviews = (await PerformanceReviewDataService.GetAllPerformanceReviews()).ToList();
+    }
+}

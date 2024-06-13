@@ -1,6 +1,7 @@
 ﻿using BlazorShopHRM.Shared.Domain;
 using Microsoft.AspNetCore.Components;
 
+
 namespace BlazorShopHRM.App.Components
 {
     public partial class EmployeeCard
@@ -17,18 +18,20 @@ namespace BlazorShopHRM.App.Components
 
         protected override void OnInitialized()
         {
-            if (string.IsNullOrEmpty(Employee.LastName)) 
+            if (string.IsNullOrEmpty(Employee.LastName))
             {
                 throw new Exception("Last name can't be empty");
             }
         }
 
-        public void NavigateToDetails(Employee selectedEmployee)
+        private void NavigateToDetails(Employee selectedEmployee)
         {
-            // Write conditions here if needed
-
-            NavigationManager.NavigateTo($"/employeedetail/{selectedEmployee.EmployeeId}");
+            NavigationManager.NavigateTo($"/employee-detail/{selectedEmployee.EmployeeId}");
         }
-    
+
+        private void NavigateToEdit(Employee selectedEmployee)
+        {
+            NavigationManager.NavigateTo($"/employee-edit/{selectedEmployee.EmployeeId}");
+        }
     }
 }

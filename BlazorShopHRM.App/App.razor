@@ -21,6 +21,10 @@
             <PageTitle>Not found</PageTitle>
             <LayoutView Layout="@typeof(MainLayout)">
                 <p role="alert">Sorry, there's nothing at this address.</p>
+
+                <button type="button" class="btn btn-outline-primary ms-1" @onclick="@NavigateToDashboard">
+                    <span class="oi oi-arrow-circle-left" aria-hidden="true"></span> Go To Dashboard
+                </button>
             </LayoutView>
         </NotFound>
     </Router>
@@ -28,15 +32,25 @@
 
 
 @code {
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+
     private List<Assembly> lazyLoadedAssemblies = new List<Assembly>();
 
     private async Task OnNavigateAsync(NavigationContext args)
     {
         Console.WriteLine(args.Path);
-        if (args.Path.Contains("employeedetail"))
+        if (args.Path.Contains("employee-detail"))
         {
             var assemblies = await LazyAssemblyLoader.LoadAssembliesAsync(new string[] { "BlazorShopHRM.ComponentsLibrary.wasm" });
             lazyLoadedAssemblies.AddRange(assemblies);
         }
+    }
+
+    protected void NavigateToDashboard()
+    {
+        NavigationManager.NavigateTo("/");
     }
 }

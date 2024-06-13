@@ -1,5 +1,5 @@
 ﻿using BlazorShopHRM.App.Models;
-using BlazorShopHRM.App.Services;
+using BlazorShopHRM.App.Services.Interfaces;
 using BlazorShopHRM.Shared.Domain;
 using Microsoft.AspNetCore.Components;
 

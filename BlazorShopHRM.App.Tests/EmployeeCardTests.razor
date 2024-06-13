@@ -1,4 +1,5 @@
 ﻿@using BlazorShopHRM.Shared.Domain
+@using BlazorShopHRM.Shared.Enums
 
 @inherits TestContext
 
@@ -40,7 +41,7 @@
     {
         var cut = Render(@<EmployeeCard Employee="_employee" />);
 
-        cut.Find("#detailnavlink").MarkupMatches(@"<a href=""employeeedit/1"" id=""detailnavlink"" class=""btn btn-outline-primary btn-sm mb-1"">Edit employee</a>");
+        cut.Find("#detailnavlink").MarkupMatches(@"<a href=""employe-eedit/1"" id=""detailnavlink"" class=""btn btn-outline-primary btn-sm mb-1"">Edit employee</a>");
     }
 
 

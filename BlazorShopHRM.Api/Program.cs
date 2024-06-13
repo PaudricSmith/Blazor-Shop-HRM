@@ -1,4 +1,6 @@
-using BlazorShopHRM.Api.Models;
+using BlazorShopHRM.Api.Data;
+using BlazorShopHRM.Api.Repositories;
+using BlazorShopHRM.Api.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,12 +16,20 @@ builder.Services.AddDbContext<AppDbContext>(options => {
 builder.Services.AddScoped<ICountryRepository, CountryRepository>();
 builder.Services.AddScoped<IJobCategoryRepository, JobCategoryRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IPayrollRepository, PayrollRepository>();
+builder.Services.AddScoped<IPerformanceReviewRepository, PerformanceReviewRepository>();
+builder.Services.AddScoped<ILeaveRepository, LeaveRepository>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+// Configure CORS policy
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+    options.AddPolicy("ProductionCorsPolicy", builder => builder
+        .WithOrigins("https://localhost:7067") // Specify your frontend's URL
+        .AllowAnyMethod() // Or specify the methods you want to allow: GET, POST, PUT, DELETE, etc.
+        .AllowAnyHeader() // Or specify the headers you want to allow
+        .AllowCredentials());
 });
 
 builder.Services.AddControllers();
@@ -51,6 +61,12 @@ if (app.Environment.IsDevelopment())
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
@@ -64,7 +80,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseCors("Open");
+app.UseCors("ProductionCorsPolicy");
 
 app.MapControllers();
 

@@ -1,0 +1,135 @@
+﻿@page "/performance-review-edit"
+@page "/performance-review-edit/{PerformanceReviewId:int}"
+@attribute [Authorize]
+@* @using BlazorShopHRM.Shared.Domain *@
+
+@if (!Saved)
+{
+    <section class="performance-review-edit">
+        <h1 class="page-title">Details for @PerformanceReview.ReviewDate.ToShortDateString()</h1>
+        <EditForm Model="@PerformanceReview" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
+
+            <DataAnnotationsValidator />
+            <ValidationSummary></ValidationSummary>
+
+            <div class="row mb-3">
+                <label for="reviewDate" class="col-form-label col-md-3">Review Date: </label>
+                <div class="col-md-8">
+                    <InputDate id="reviewDate" class="form-control col-md-8" @bind-Value="@PerformanceReview.ReviewDate"></InputDate>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="comments" class="col-form-label col-md-3">Comments: </label>
+                <div class="col-md-8">
+                    <InputTextArea id="comments" class="form-control col-md-8" @bind-Value="@PerformanceReview.Comments"></InputTextArea>
+                </div>
+                <ValidationMessage class="offset-md-3 col-md-8" For="@(() => PerformanceReview.Comments)" />
+            </div>
+
+            <div class="row mb-3">
+                <label for="score" class="col-form-label col-md-3">Score: </label>
+                <div class="col-md-8">
+                    <InputNumber id="score" class="form-control col-md-8" @bind-Value="@PerformanceReview.Score"></InputNumber>
+                </div>
+                <ValidationMessage class="offset-md-3 col-md-8" For="@(() => PerformanceReview.Score)" />
+            </div>
+
+            <button type="submit" class="btn btn-primary me-1">Save Performance Review</button>
+
+            @if (PerformanceReview.PerformanceReviewId > 0)
+            {
+                <button type="button" class="btn btn-danger my-1" @onclick="@DeletePerformanceReview">Delete</button>
+            }
+
+            <button type="button" class="btn btn-outline-primary" @onclick="@NavigateToOverview">Back to Overview</button>
+        </EditForm>
+    </section>
+}
+else
+{
+    <div class="alert @StatusClass">@Message</div>
+
+    <button type="button" class="btn btn-outline-primary ms-1" @onclick="@NavigateToOverview">Back to Overview</button>
+}
+
+@code {
+    [Parameter]
+    public int PerformanceReviewId { get; set; }
+
+    private PerformanceReview PerformanceReview = new PerformanceReview();
+    private string Message = string.Empty;
+    private string StatusClass = string.Empty;
+    private bool Saved;
+
+    [Inject]
+    public IPerformanceReviewDataService PerformanceReviewDataService { get; set; }
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Saved = false;
+
+        if (PerformanceReviewId == 0)
+        {
+            PerformanceReview = new PerformanceReview
+                {
+                    ReviewDate = DateTime.Now
+                };
+        }
+        else
+        {
+            PerformanceReview = await PerformanceReviewDataService.GetPerformanceReviewDetails(PerformanceReviewId);
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        Saved = false;
+
+        if (PerformanceReview.PerformanceReviewId == 0)
+        {
+            var addedPerformanceReview = await PerformanceReviewDataService.AddPerformanceReview(PerformanceReview);
+            if (addedPerformanceReview != null)
+            {
+                StatusClass = "alert-success";
+                Message = "New performance review added successfully.";
+                Saved = true;
+            }
+            else
+            {
+                StatusClass = "alert-danger";
+                Message = "Something went wrong adding the new performance review. Please try again.";
+                Saved = false;
+            }
+        }
+        else
+        {
+            await PerformanceReviewDataService.UpdatePerformanceReview(PerformanceReview);
+            StatusClass = "alert-success";
+            Message = "Performance review updated successfully.";
+            Saved = true;
+        }
+    }
+
+    private async Task HandleInvalidSubmit()
+    {
+        StatusClass = "alert-danger";
+        Message = "There are some validation errors. Please try again.";
+    }
+
+    private async Task DeletePerformanceReview()
+    {
+        await PerformanceReviewDataService.DeletePerformanceReview(PerformanceReview.PerformanceReviewId);
+
+        StatusClass = "alert-success";
+        Message = "Deleted Successfully";
+        Saved = true;
+    }
+
+    private void NavigateToOverview()
+    {
+        NavigationManager.NavigateTo("/performance-review-overview");
+    }
+}

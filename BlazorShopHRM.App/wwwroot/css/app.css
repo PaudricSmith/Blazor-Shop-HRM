@@ -12458,11 +12458,11 @@ h6, .h6 {
     flex-shrink: 0;
 }
 
-.employee-detail, .employee-edit {
-    padding: 15px;
+.employee-detail, .employee-edit, .payroll-edit {
+    padding: 25px;
     background-color: #FFF !important;
 }
 
 .profile-picture {
-    opacity: 0.7 !important;
+    opacity: 0.8 !important;
 }

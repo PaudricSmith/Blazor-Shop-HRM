@@ -1,0 +1,53 @@
+﻿@page "/leave-overview"
+@attribute [Authorize]
+
+<PageTitle>@Title</PageTitle>
+
+<HeadContent>
+    <meta name="description" content="@Description">
+</HeadContent>
+
+<h2>Leave Overview</h2>
+
+<NavLink class="list-group-item list-group-item-primary" href="/leave-edit">
+    <span class="oi oi-calendar" aria-hidden="true"></span> Add New Leave
+</NavLink>
+
+<br />
+
+@if (Leaves == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        @foreach (var leave in Leaves)
+        {
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
+                <ErrorBoundary>
+                    <ChildContent>
+                        @* <LeaveCard Leave="leave"></LeaveCard> *@
+                    </ChildContent>
+                    <ErrorContent>
+                        <p class="errorUI">Invalid Leave!</p>
+                    </ErrorContent>
+                </ErrorBoundary>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private string Title = "Leave Overview";
+    private string Description = "Leave overview";
+    private List<Leave> Leaves = new List<Leave>();
+
+    [Inject]
+    public ILeaveDataService LeaveDataService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Leaves = (await LeaveDataService.GetAllLeaves()).ToList();
+    }
+}

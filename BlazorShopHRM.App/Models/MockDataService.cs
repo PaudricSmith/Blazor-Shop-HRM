@@ -1,4 +1,5 @@
 ﻿using BlazorShopHRM.Shared.Domain;
+using BlazorShopHRM.Shared.Enums;
 
 namespace BlazorShopHRM.App.Models
 {

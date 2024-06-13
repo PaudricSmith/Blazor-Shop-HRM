@@ -1,21 +1,22 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using BlazorShopHRM.Shared.Enums;
+
 
 namespace BlazorShopHRM.Shared.Domain
 {
     public class Employee
-    {        
+    {
         public int EmployeeId { get; set; }
 
-        [Required] 
+        [Required]
         [StringLength(50, ErrorMessage = "First name is too long!")]
         public string FirstName { get; set; } = string.Empty;
-        
-        [Required] 
+
+        [Required]
         [StringLength(50, ErrorMessage = "Last name is too long!")]
         public string LastName { get; set; } = string.Empty;
-        
+
         public DateTime BirthDate { get; set; }
 
         [Required]
@@ -37,6 +38,7 @@ namespace BlazorShopHRM.Shared.Domain
         public DateTime? ExitDate { get; set; }
 
         public int JobCategoryId { get; set; }
+        [ForeignKey(nameof(JobCategoryId))]
         public JobCategory? JobCategory { get; set; } = default!;
 
         public double? Latitude { get; set; }

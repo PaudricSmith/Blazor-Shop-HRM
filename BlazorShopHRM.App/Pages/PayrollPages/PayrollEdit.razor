@@ -1,0 +1,61 @@
+﻿@page "/payroll-edit"
+@page "/payroll-edit/{PayrollId:int}"
+@attribute [Authorize]
+
+
+<PageTitle>@Title</PageTitle>
+<HeadContent>
+    <meta name="description" content="@Description">
+</HeadContent>
+
+
+@if (!Saved)
+{
+    <section class="employee-edit">
+        <EditForm Model="@Payroll" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
+            
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="row mb-3">
+                <label for="employee" class="col-form-label col-md-3">Employee: </label>
+                <div class="col-md-8">
+                    <InputSelect id="employee" class="form-control col-md-8" required @bind-Value="Payroll.EmployeeId">
+                        <option value="">Select an Employee</option>
+                        @foreach (var employee in Employees)
+                        {
+                            <option value="@employee.EmployeeId">@employee.FirstName @employee.LastName</option>
+                        }
+                    </InputSelect>
+                </div>
+                <ValidationMessage class="offset-md-3 col-md-8" For="@(() => Payroll.EmployeeId)" />
+            </div>
+
+            <div class="row mb-3">
+                <label for="month" class="col-form-label col-md-3">Month: </label>
+                <div class="col-md-8">
+                    <InputDate id="month" class="form-control col-md-8" required @bind-Value="Payroll.Month"></InputDate>
+                </div>
+                <ValidationMessage class="offset-md-3 col-md-8" For="@(() => Payroll.Month)" />
+            </div>
+
+            <div class="row mb-3">
+                <label for="amount" class="col-form-label col-md-3">Amount: </label>
+                <div class="col-md-8">
+                    <InputNumber id="amount" class="form-control col-md-8" required @bind-Value="Payroll.Amount"></InputNumber>
+                </div>
+                <ValidationMessage class="offset-md-3 col-md-8" For="@(() => Payroll.Amount)" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Payroll</button>
+            <button type="button" class="btn btn-outline-primary m-1" @onclick="@NavigateToOverview">Back to Overview</button>
+
+        </EditForm>
+    </section>
+}
+else
+{
+    <div class="alert @StatusClass">@Message</div>
+
+    <button type="button" class="btn btn-outline-primary ms-1" @onclick="@NavigateToOverview">Back to Overview</button>
+}

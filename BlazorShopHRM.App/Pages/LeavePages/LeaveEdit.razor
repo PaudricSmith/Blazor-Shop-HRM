@@ -1,0 +1,147 @@
+﻿@page "/leave-edit"
+@page "/leave-edit/{LeaveId:int}"
+@using BlazorShopHRM.Shared.Domain
+
+@if (!Saved)
+{
+    <section class="leave-edit">
+        <h1 class="page-title">Details for @Leave.StartDate.ToShortDateString()</h1>
+        <EditForm Model="@Leave" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+
+            <DataAnnotationsValidator />
+            <ValidationSummary></ValidationSummary>
+
+            <div class="row mb-3">
+                <label for="startDate" class="col-form-label col-md-3">Start Date: </label>
+                <div class="col-md-8">
+                    <InputDate id="startDate" class="form-control col-md-8" @bind-Value="@Leave.StartDate"></InputDate>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="endDate" class="col-form-label col-md-3">End Date: </label>
+                <div class="col-md-8">
+                    <InputDate id="endDate" class="form-control col-md-8" @bind-Value="@Leave.EndDate"></InputDate>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="leaveType" class="col-form-label col-md-3">Leave Type: </label>
+                <div class="col-md-8">
+                    <InputSelect id="leaveType" class="form-select col-md-8" @bind-Value=@Leave.LeaveType>
+                        <option value="@(LeaveType.Personal)">Personal</option>
+                        <option value="@(LeaveType.Vacation)">Vacation</option>
+                        <option value="@(LeaveType.Sick)">Sick</option>
+                        <option value="@(LeaveType.Other)">Other</option>
+                    </InputSelect>
+                </div>
+                <ValidationMessage class="offset-md-3 col-md-8" For="@(() => Leave.LeaveType)" />
+            </div>
+
+            <div class="row mb-3">
+                <label for="reason" class="col-form-label col-md-3">Reason: </label>
+                <div class="col-md-8">
+                    <InputTextArea id="reason" class="form-control col-md-8" @bind-Value="@Leave.Reason"></InputTextArea>
+                </div>
+                <ValidationMessage class="offset-md-3 col-md-8" For="@(() => Leave.Reason)" />
+            </div>
+
+            <button type="submit" class="btn btn-primary me-1">Save Leave</button>
+
+            @if (Leave.LeaveId > 0)
+            {
+                <button type="button" class="btn btn-danger my-1" @onclick="@DeleteLeave">Delete</button>
+            }
+
+            <button type="button" class="btn btn-outline-primary" @onclick="@NavigateToOverview">Back to Overview</button>
+        </EditForm>
+    </section>
+}
+else
+{
+    <div class="alert @StatusClass">@Message</div>
+
+    <button type="button" class="btn btn-outline-primary ms-1" @onclick="@NavigateToOverview">Back to Overview</button>
+}
+
+@code {
+    [Parameter]
+    public int LeaveId { get; set; }
+
+    private Leave Leave = new Leave();
+    private string Message = string.Empty;
+    private string StatusClass = string.Empty;
+    private bool Saved;
+
+    [Inject]
+    public ILeaveDataService LeaveDataService { get; set; }
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Saved = false;
+
+        if (LeaveId == 0)
+        {
+            Leave = new Leave
+                {
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now.AddDays(7)
+                };
+        }
+        else
+        {
+            Leave = await LeaveDataService.GetLeaveDetails(LeaveId);
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        Saved = false;
+
+        if (Leave.LeaveId == 0)
+        {
+            var addedLeave = await LeaveDataService.AddLeave(Leave);
+            if (addedLeave != null)
+            {
+                StatusClass = "alert-success";
+                Message = "New leave added successfully.";
+                Saved = true;
+            }
+            else
+            {
+                StatusClass = "alert-danger";
+                Message = "Something went wrong adding the new leave. Please try again.";
+                Saved = false;
+            }
+        }
+        else
+        {
+            await LeaveDataService.UpdateLeave(Leave);
+            StatusClass = "alert-success";
+            Message = "Leave updated successfully.";
+            Saved = true;
+        }
+    }
+
+    private async Task HandleInvalidSubmit()
+    {
+        StatusClass = "alert-danger";
+        Message = "There are some validation errors. Please try again.";
+    }
+
+    private async Task DeleteLeave()
+    {
+        await LeaveDataService.DeleteLeave(Leave.LeaveId);
+
+        StatusClass = "alert-success";
+        Message = "Deleted Successfully";
+        Saved = true;
+    }
+
+    private void NavigateToOverview()
+    {
+        NavigationManager.NavigateTo("/leave-overview");
+    }
+}

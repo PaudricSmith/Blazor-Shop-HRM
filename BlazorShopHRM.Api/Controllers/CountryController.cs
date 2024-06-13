@@ -1,4 +1,4 @@
-﻿using BlazorShopHRM.Api.Models;
+﻿using BlazorShopHRM.Api.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorShopHRM.Api.Controllers

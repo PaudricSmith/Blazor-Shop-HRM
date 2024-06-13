@@ -1,0 +1,20 @@
+﻿<div class="col">
+    <div class="card rounded-3 payroll-card text-center">
+        <div class="card-header py-3">
+            <h4>@Payroll.Month.ToString("MMMM yyyy")</h4>
+            <h4>@Payroll.Employee?.FirstName @Payroll.Employee?.LastName</h4>
+            <h5>@Payroll.Employee?.JobCategory?.JobCategoryName</h5>
+        </div>
+        <div class="card-body payroll-card text-center">
+            <div class="mb-3">
+                <h5>Amount: @Payroll.Amount.ToString("C")</h5>
+            </div>
+            <button class="btn btn-primary btn-sm mb-1" @onclick="() => PayrollEditClicked.InvokeAsync(Payroll)">
+                Edit
+            </button>
+            <button class="btn btn-danger btn-sm mb-1" @onclick="async () => await PayrollDeleteClicked.InvokeAsync(Payroll)">
+                Delete
+            </button>
+        </div>
+    </div>
+</div>
