@@ -5,10 +5,17 @@ using BlazorShopHRM.App.Services.Interfaces;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using System.Globalization;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
+
+// Set the culture to Irish (Ireland) which uses Euro
+var culture = new CultureInfo("en-IE");
+CultureInfo.DefaultThreadCurrentCulture = culture;
+CultureInfo.DefaultThreadCurrentUICulture = culture;
+
 
 builder.Services.AddHttpClient<IEmployeeDataService, EmployeeDataService>(
     client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
@@ -38,6 +45,7 @@ builder.Services.AddHttpClient<IAnnouncementDataService, AnnouncementDataService
     client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
     .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
+
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddSingleton<ApplicationState>();
 
@@ -47,5 +55,6 @@ builder.Services.AddOidcAuthentication(options =>
     options.ProviderOptions.ResponseType = "code";
     options.ProviderOptions.AdditionalProviderParameters.Add("audience", builder.Configuration["Auth0:Audience"]);
 });
+
 
 await builder.Build().RunAsync();
